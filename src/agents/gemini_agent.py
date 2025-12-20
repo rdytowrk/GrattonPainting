@@ -4,7 +4,7 @@ import time
 import re
 from pathlib import Path
 from typing import Optional, Dict, Any
-import google.generativeai as genai
+from google import genai
 
 from ..harness.config import HarnessConfig
 from ..harness.models import ConversionResult
@@ -17,24 +17,18 @@ class GeminiAgent:
         """Initialize Gemini agent."""
         self.config = config
         
-        # Configure Gemini API
+        # Get API key and configuration
         api_key = config.get_gemini_api_key()
-        genai.configure(api_key=api_key)
-        
-        # Get agent configuration
         agent_config = config.get_internal_agent_config()
         self.model_name = agent_config.get("model", config.get_gemini_model())
         self.generation_config = agent_config.get("generation", {})
         self.api_config = agent_config.get("api", {})
         self.response_config = agent_config.get("response", {})
         
-        # Initialize model
-        self.model = genai.GenerativeModel(
-            model_name=self.model_name,
-            generation_config=self._get_generation_config()
-        )
+        # Initialize Gemini client with new API
+        self.client = genai.Client(api_key=api_key)
         
-        # Cost tracking (approximate rates for Gemini)
+        # Cost tracking (approximate rates for Gemini 2.0 Flash)
         self.input_cost_per_1k = 0.00025  # $0.25 per 1M tokens
         self.output_cost_per_1k = 0.00050  # $0.50 per 1M tokens
     
@@ -120,17 +114,8 @@ class GeminiAgent:
             prompt_template = self.load_prompt(prompt_name)
             full_prompt = self.prepare_prompt(prompt_template, input_html)
             
-            # Update generation config if overrides provided
-            if generation_override:
-                prompt_config = self.config.get_prompt_config(prompt_name)
-                params = prompt_config.get("parameters", {})
-                params.update(generation_override)
-                
-                # Recreate model with new config
-                self.model = genai.GenerativeModel(
-                    model_name=self.model_name,
-                    generation_config=self._get_generation_config(params)
-                )
+            # Get generation config
+            gen_config = self._get_generation_config(generation_override)
             
             # Generate response with retry logic
             max_retries = self.api_config.get("retry_attempts", 3)
@@ -141,7 +126,16 @@ class GeminiAgent:
             
             for attempt in range(max_retries):
                 try:
-                    response = self.model.generate_content(full_prompt)
+                    response = self.client.models.generate_content(
+                        model=self.model_name,
+                        contents=full_prompt,
+                        config=genai.types.GenerateContentConfig(
+                            temperature=gen_config.get("temperature", 0.7),
+                            top_p=gen_config.get("top_p", 0.95),
+                            top_k=gen_config.get("top_k", 40),
+                            max_output_tokens=gen_config.get("max_output_tokens", 8000),
+                        )
+                    )
                     break
                 except Exception as e:
                     last_error = e
@@ -202,7 +196,10 @@ class GeminiAgent:
     def test_connection(self) -> bool:
         """Test if the API connection is working."""
         try:
-            response = self.model.generate_content("Hello, respond with 'OK'")
+            response = self.client.models.generate_content(
+                model=self.model_name,
+                contents="Hello, respond with 'OK'"
+            )
             return bool(response.text)
         except Exception:
             return False

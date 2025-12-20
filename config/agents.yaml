@@ -4,7 +4,7 @@
 # Internal Agent (Gemini API)
 internal_agent:
   provider: google_gemini
-  model: gemini-2.0-flash-exp  # Can be overridden by env var
+  model: gemini-2.0-flash-exp  # Gemini 2.0 Flash (latest)
   
   # API settings
   api:

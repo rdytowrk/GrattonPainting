@@ -1,37 +1,19 @@
 # Known Issues
 
-## Deprecation Warning: google.generativeai Package
+## ✅ RESOLVED: Migrated to google-genai Package
 
-**Issue:** When importing the Gemini agent, you may see this warning:
+**Previous Issue:** The harness was using the deprecated `google-generativeai` package.
 
-```
-FutureWarning: All support for the `google.generativeai` package has ended. 
-It will no longer be receiving updates or bug fixes. 
-Please switch to the `google.genai` package as soon as possible.
-```
+**Status:** ✅ RESOLVED (December 20, 2025)
 
-**Status:** Known deprecation warning
+**Solution Implemented:**
+- ✅ Updated `requirements.txt` to use `google-genai` instead of `google-generativeai`
+- ✅ Updated `src/agents/gemini_agent.py` to use the new API
+- ✅ Using Gemini 2.0 Flash (gemini-2.0-flash-exp)
+- ✅ Updated all API calls to use new `client.models.generate_content()` format
 
-**Impact:** 
-- ⚠️ The current implementation uses `google-generativeai` package
-- ✅ The harness still works correctly
-- ⚠️ Future updates from Google will require migration
-
-**Solution:**
-The Google team has deprecated `google.generativeai` in favor of `google.genai`. 
-
-**Workaround for now:**
-The current implementation continues to work. The warning is informational and doesn't affect functionality.
-
-**Future Fix (TODO):**
-We should migrate to the new `google.genai` package. This will require:
-1. Updating `requirements.txt` to use `google-genai` instead of `google-generativeai`
-2. Updating `src/agents/gemini_agent.py` to use the new API
-3. Testing compatibility
-
-**Migration Timeline:**
-- Current version (v0.1.0): Uses deprecated package but fully functional
-- Future version (v0.2.0): Will migrate to `google.genai`
+**Current Status:**
+The harness now uses the latest, supported Google Gemini API with no deprecation warnings.
 
 ## Other Notes
 
