@@ -88,9 +88,22 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       
       - name: List available test cases
+        id: check-tests
         run: |
           echo "=== Available Test Cases ==="
           python scripts/list_test_cases.py --stats
+          
+          # Check if we have any test cases
+          TEST_COUNT=$(python scripts/list_test_cases.py --stats | grep "Total test cases:" | awk '{print $4}')
+          echo "test_count=$TEST_COUNT" >> $GITHUB_OUTPUT
+          
+          if [ "$TEST_COUNT" -eq 0 ]; then
+            echo "⚠️ No test cases available. Skipping test execution."
+            echo "has_tests=false" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Found $TEST_COUNT test case(s)"
+            echo "has_tests=true" >> $GITHUB_OUTPUT
+          fi
       
       - name: Determine prompt to test
         id: determine-prompt
@@ -116,6 +129,7 @@ jobs:
       
       - name: Run tests
         id: run-tests
+        if: steps.check-tests.outputs.has_tests == 'true'
         run: |
           PROMPT_NAME="${{ steps.determine-prompt.outputs.prompt_name }}"
           TEST_CATEGORY="${{ github.event.inputs.test_category || 'all' }}"
@@ -202,7 +216,7 @@ jobs:
           fi
       
       - name: Upload test results
-        if: always()
+        if: always() && steps.run-tests.outputs.run_id != ''
         uses: actions/upload-artifact@v4
         with:
           name: test-results-python-${{ matrix.python-version }}
@@ -218,11 +232,30 @@ jobs:
           name: test-reports-python-${{ matrix.python-version }}
           path: results/reports/ci_report_*
           retention-days: 30
+      
+      - name: Create summary when no tests available
+        if: steps.check-tests.outputs.has_tests != 'true'
+        run: |
+          echo "# ⚠️ No Test Cases Available" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "No test cases were found to run." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Next Steps" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "1. Add test cases using:" >> $GITHUB_STEP_SUMMARY
+          echo '   ```bash' >> $GITHUB_STEP_SUMMARY
+          echo '   python scripts/add_test_case.py --url https://example.com --name "Test"' >> $GITHUB_STEP_SUMMARY
+          echo '   ```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "2. Or run initialization:" >> $GITHUB_STEP_SUMMARY
+          echo '   ```bash' >> $GITHUB_STEP_SUMMARY
+          echo '   python scripts/init_harness.py' >> $GITHUB_STEP_SUMMARY
+          echo '   ```' >> $GITHUB_STEP_SUMMARY
 
   compare-with-baseline:
     runs-on: ubuntu-latest
     needs: test-prompts
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && needs.test-prompts.result == 'success'
     
     steps:
       - name: Checkout repository
@@ -240,13 +273,23 @@ jobs:
       
       - name: Download test results
         uses: actions/download-artifact@v4
+        continue-on-error: true
+        id: download
         with:
           name: test-results-python-3.9
           path: results/
       
       - name: Compare with baseline
         id: compare
+        if: steps.download.outcome == 'success'
         run: |
+          # Check if results directory exists and has runs
+          if [ ! -d "results/runs" ] || [ -z "$(ls -A results/runs 2>/dev/null)" ]; then
+            echo "No test runs found in artifacts"
+            echo "has_comparison=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
           # Get the two most recent runs
           RUNS=($(ls -t results/runs/ | head -2))
           
@@ -258,11 +301,39 @@ jobs:
             
             echo "has_comparison=true" >> $GITHUB_OUTPUT
           else
-            echo "Not enough runs to compare"
+            echo "Not enough runs to compare (found ${#RUNS[@]} run(s))"
             echo "has_comparison=false" >> $GITHUB_OUTPUT
           fi
       
-      - name: Comment PR with results
+      - name: Create PR summary without comparison
+        if: steps.download.outcome != 'success' || steps.compare.outputs.has_comparison != 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const message = `## 🧪 Prompt Test Results
+            
+            Tests have been executed. Artifacts were not available for comparison.
+            
+            This may be because:
+            - This is the first test run
+            - No test cases have been added yet
+            - The tests didn't complete successfully
+            
+            **Next steps:**
+            1. Add test cases: \`python scripts/add_test_case.py --url <url> --name "Test"\`
+            2. Run the workflow again
+            
+            ---
+            *Automated by GitHub Actions*`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            });
+      
+      - name: Comment PR with comparison
         if: steps.compare.outputs.has_comparison == 'true'
         uses: actions/github-script@v7
         with:
