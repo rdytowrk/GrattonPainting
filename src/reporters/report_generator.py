@@ -7,7 +7,7 @@ from datetime import datetime
 from ..harness.config import HarnessConfig
 from ..harness.models import TestRun, EvaluationScore, ConversionResult
 from ..utils.run_manager import RunManager
-from ..utils.file_utils import ensure_dir
+from ..utils.file_utils import ensure_dir, save_json
 
 
 class ReportGenerator:
@@ -189,9 +189,7 @@ class ReportGenerator:
             content = self.generate_json_report(run_id)
             report_file = self.reports_dir / f"{run_id}.json"
             
-            import json
-            with open(report_file, 'w') as f:
-                json.dump(content, f, indent=2)
+            save_json(content, report_file)
         
         else:
             raise ValueError(f"Unsupported format: {format}")

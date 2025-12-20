@@ -10,6 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.harness.config import load_config
 from src.utils.run_manager import RunManager
+from src.utils.file_utils import save_json
 from src.reporters.report_generator import ReportGenerator
 
 
@@ -113,8 +114,6 @@ def main():
         print("=" * 80)
     
     elif args.format == "json":
-        import json
-        
         report = reporter.generate_json_report(run_id)
         
         if args.output:
@@ -122,12 +121,12 @@ def main():
         else:
             output_path = reporter.reports_dir / f"{run_id}.json"
         
-        with open(output_path, 'w') as f:
-            json.dump(report, f, indent=2)
+        save_json(report, output_path)
         
         print(f"✅ Report saved to: {output_path}")
         
         # Print summary to stdout
+        import json
         print("\nSummary:")
         print(json.dumps(report.get("summary", {}), indent=2))
 
