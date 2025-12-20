@@ -1,0 +1,76 @@
+# Evaluation Configuration
+# Define metrics and scoring criteria
+
+metrics:
+  html_validity:
+    enabled: true
+    weight: 1.0
+    description: "Validates HTML5 structure and syntax"
+    fail_threshold: 0.0  # Must be valid HTML
+    
+  tailwind_coverage:
+    enabled: true
+    weight: 0.8
+    description: "Percentage of styles using Tailwind classes"
+    min_threshold: 0.7  # At least 70% Tailwind usage
+    
+  semantic_score:
+    enabled: true
+    weight: 0.9
+    description: "Proper use of semantic HTML5 elements"
+    min_threshold: 0.6
+    preferred_elements:
+      - header
+      - nav
+      - main
+      - article
+      - section
+      - aside
+      - footer
+    
+  accessibility_score:
+    enabled: true
+    weight: 0.7
+    description: "Basic accessibility compliance"
+    min_threshold: 0.5
+    checks:
+      - alt_text_on_images
+      - aria_labels_where_needed
+      - proper_heading_hierarchy
+      - form_labels
+      - sufficient_color_contrast  # Future: requires visual analysis
+    
+  code_quality:
+    enabled: true
+    weight: 0.6
+    description: "Code cleanliness and organization"
+    checks:
+      - proper_indentation
+      - consistent_formatting
+      - no_inline_styles
+      - minimal_nesting_depth
+    max_nesting_depth: 8
+    
+  token_efficiency:
+    enabled: true
+    weight: 0.4
+    description: "Output tokens relative to input"
+    track_costs: true
+
+# Scoring
+scoring:
+  method: weighted_average  # weighted_average, simple_average, minimum
+  pass_threshold: 0.7  # Overall score needed to "pass"
+  
+# Comparison settings
+comparison:
+  enable_visual_diff: false  # Requires screenshot comparison setup
+  enable_code_diff: true
+  diff_format: unified  # unified, side-by-side
+  
+# Output validation
+validation:
+  require_valid_html: true
+  require_tailwind_classes: true
+  max_output_size_kb: 500
+  timeout_seconds: 60

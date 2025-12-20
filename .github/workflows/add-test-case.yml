@@ -1,0 +1,133 @@
+name: Add Test Case via PR
+
+on:
+  pull_request:
+    paths:
+      - 'test_cases/**'
+      - '.github/workflows/add-test-case.yml'
+  
+  workflow_dispatch:
+    inputs:
+      test_url:
+        description: 'URL to fetch HTML from'
+        required: false
+        type: string
+      
+      test_name:
+        description: 'Name for the test case'
+        required: true
+        type: string
+      
+      category:
+        description: 'Test category'
+        required: true
+        default: 'medium'
+        type: choice
+        options:
+          - simple
+          - medium
+          - complex
+      
+      tags:
+        description: 'Tags (comma-separated)'
+        required: false
+        type: string
+
+jobs:
+  add-test-case:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref }}
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Add test case
+        id: add-test
+        run: |
+          TEST_URL="${{ github.event.inputs.test_url }}"
+          TEST_NAME="${{ github.event.inputs.test_name }}"
+          CATEGORY="${{ github.event.inputs.category }}"
+          TAGS="${{ github.event.inputs.tags }}"
+          
+          CMD="python scripts/add_test_case.py --name \"$TEST_NAME\" --category $CATEGORY"
+          
+          if [ -n "$TEST_URL" ]; then
+            CMD="$CMD --url \"$TEST_URL\""
+          else
+            echo "❌ No URL provided"
+            exit 1
+          fi
+          
+          if [ -n "$TAGS" ]; then
+            CMD="$CMD --tags \"$TAGS\""
+          fi
+          
+          echo "Executing: $CMD"
+          eval $CMD
+          
+          # Get the new test case ID
+          TEST_ID=$(python scripts/list_test_cases.py | tail -1 | awk '{print $2}')
+          echo "test_id=$TEST_ID" >> $GITHUB_OUTPUT
+      
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          git add test_cases/
+          git commit -m "test: Add test case '${{ github.event.inputs.test_name }}' via GitHub Actions"
+          git push
+      
+      - name: Create summary
+        run: |
+          echo "# Test Case Added" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ **Test case added successfully**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Name:** ${{ github.event.inputs.test_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**ID:** \`${{ steps.add-test.outputs.test_id }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Category:** ${{ github.event.inputs.category }}" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -n "${{ github.event.inputs.tags }}" ]; then
+            echo "**Tags:** ${{ github.event.inputs.tags }}" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  validate-test-cases:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Validate test case metadata and files
+        run: |
+          python scripts/validate_test_cases.py
+      
+      - name: List test cases
+        run: |
+          echo "=== Test Cases in This PR ==="
+          python scripts/list_test_cases.py --verbose

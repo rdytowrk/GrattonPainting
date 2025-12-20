@@ -1,0 +1,17 @@
+# Code owners for the HTML-to-Tailwind Conversion Harness
+
+# Default owners for everything
+* @rdytowrk
+
+# Prompt files should be reviewed carefully
+prompts/** @rdytowrk
+config/prompts.yaml @rdytowrk
+
+# Evaluation configuration changes need review
+config/evaluation.yaml @rdytowrk
+
+# Core harness code
+src/** @rdytowrk
+
+# GitHub Actions workflows
+.github/workflows/** @rdytowrk
