@@ -45,8 +45,8 @@ Thumbs.db
 *.log
 harness.log
 
-# Test outputs (keep structure, ignore content)
-test_cases/html_inputs/*.html
+# Test outputs (keep structure, but allow html inputs for CI/CD)
+# test_cases/html_inputs/*.html  # Commented out - we need these for workflows
 test_cases/screenshots/*.png
 test_cases/expected_outputs/*.html
 !test_cases/html_inputs/.gitkeep
