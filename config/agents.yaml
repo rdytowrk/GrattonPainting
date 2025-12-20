@@ -1,0 +1,85 @@
+# Agent Configuration
+# Define settings for both internal and external agents
+
+# Internal Agent (Gemini API)
+internal_agent:
+  provider: google_gemini
+  model: gemini-2.5-flash  # Gemini 2.5 Flash (newest, free)
+  
+  # API settings
+  api:
+    retry_attempts: 5
+    retry_delay: 15  # seconds
+    timeout: 60  # seconds
+    rate_limit_delay: 5  # seconds between requests
+  
+  # Generation parameters (defaults, can be overridden per prompt)
+  generation:
+    temperature: 0.7
+    top_p: 0.95
+    top_k: 40
+    max_output_tokens: 8000
+    
+  # Cost tracking
+  cost_tracking:
+    enabled: true
+    log_to_file: true
+    log_path: results/cost_tracking.json
+    
+  # Response handling
+  response:
+    extract_code_blocks: true  # Extract HTML from markdown code blocks
+    validate_before_save: true
+    save_raw_response: true  # Keep full API response for debugging
+
+# External Agent (Cursor/Coding Agent)
+external_agent:
+  # CLI preferences
+  cli:
+    output_format: markdown  # markdown, json, yaml
+    verbosity: detailed  # minimal, normal, detailed
+    color_output: true
+    
+  # Report preferences
+  reports:
+    include_metrics: true
+    include_diff: true
+    include_recommendations: true
+    include_cost_analysis: true
+    max_examples: 5  # Max failed examples to show in report
+    
+  # Review workflow
+  review:
+    auto_generate_feedback_template: true
+    feedback_path: results/agent_feedback.md
+    
+  # Git integration
+  git:
+    auto_commit_results: false
+    commit_message_template: "test: harness run {run_id} - {prompt_name}"
+
+# Shared settings
+shared:
+  # Logging
+  logging:
+    level: INFO  # DEBUG, INFO, WARNING, ERROR
+    format: detailed  # simple, detailed, json
+    log_file: harness.log
+    
+  # Caching
+  caching:
+    enabled: true
+    cache_dir: .cache
+    ttl_hours: 24
+    cache_api_responses: true  # Cache Gemini API responses
+    
+  # Parallel execution
+  parallel:
+    enabled: true
+    max_workers: 4  # Max concurrent test executions
+    
+  # Notifications
+  notifications:
+    on_completion: false
+    on_error: true
+    methods: []  # email, slack, webhook

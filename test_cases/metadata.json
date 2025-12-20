@@ -1,0 +1,89 @@
+{
+  "test_cases": [
+    {
+      "id": "test_95cb33bb",
+      "name": "Sample Card Component",
+      "description": null,
+      "input_type": "html",
+      "input_path": "test_cases/html_inputs/test_95cb33bb.html",
+      "input_url": null,
+      "expected_output_path": null,
+      "category": "simple",
+      "tags": [
+        "card",
+        "sample",
+        "bootstrap"
+      ],
+      "metadata": {},
+      "created_at": "2025-12-20T08:08:42.799370"
+    },
+    {
+      "id": "test_4c92fd56",
+      "name": "Navigation Bar",
+      "description": null,
+      "input_type": "html",
+      "input_path": "test_cases/html_inputs/test_4c92fd56.html",
+      "input_url": null,
+      "expected_output_path": null,
+      "category": "simple",
+      "tags": [
+        "navigation",
+        "header"
+      ],
+      "metadata": {},
+      "created_at": "2025-12-20T08:08:51.368784"
+    },
+    {
+      "id": "test_1817dfa0",
+      "name": "Contact Form",
+      "description": null,
+      "input_type": "html",
+      "input_path": "test_cases/html_inputs/test_1817dfa0.html",
+      "input_url": null,
+      "expected_output_path": null,
+      "category": "medium",
+      "tags": [
+        "form",
+        "contact"
+      ],
+      "metadata": {},
+      "created_at": "2025-12-20T08:09:01.682754"
+    }
+  ],
+  "version": "1.0.0",
+  "last_updated": "2025-12-20T08:09:01.682798",
+  "total_cases": 3,
+  "categories": {
+    "simple": [
+      "test_95cb33bb",
+      "test_4c92fd56"
+    ],
+    "medium": [
+      "test_1817dfa0"
+    ],
+    "complex": []
+  },
+  "tags": {
+    "card": [
+      "test_95cb33bb"
+    ],
+    "sample": [
+      "test_95cb33bb"
+    ],
+    "bootstrap": [
+      "test_95cb33bb"
+    ],
+    "navigation": [
+      "test_4c92fd56"
+    ],
+    "header": [
+      "test_4c92fd56"
+    ],
+    "form": [
+      "test_1817dfa0"
+    ],
+    "contact": [
+      "test_1817dfa0"
+    ]
+  }
+}

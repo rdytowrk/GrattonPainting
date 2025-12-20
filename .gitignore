@@ -1,0 +1,60 @@
+# Environment
+.env
+.venv
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Results (optional - uncomment to exclude from git)
+# results/
+# .cache/
+
+# Logs
+*.log
+harness.log
+
+# Test outputs (keep structure, but allow html inputs for CI/CD)
+# test_cases/html_inputs/*.html  # Commented out - we need these for workflows
+test_cases/screenshots/*.png
+test_cases/expected_outputs/*.html
+!test_cases/html_inputs/.gitkeep
+!test_cases/screenshots/.gitkeep
+!test_cases/expected_outputs/.gitkeep
+
+# Keep directory structure
+!results/.gitkeep
+!results/runs/.gitkeep
+!results/comparisons/.gitkeep
+!results/reports/.gitkeep

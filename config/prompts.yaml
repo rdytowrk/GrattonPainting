@@ -1,0 +1,42 @@
+# Prompt Configuration
+# Define prompt templates and their variations
+
+prompts:
+  conversion_v1:
+    file: base/conversion_v1.md
+    description: "Base HTML to Tailwind conversion prompt"
+    active: true
+    parameters:
+      temperature: 0.7
+      max_tokens: 8000
+      top_p: 0.95
+    metadata:
+      created: "2025-12-20"
+      author: "system"
+      version: "1.0.0"
+    tags:
+      - base
+      - production
+
+# Example variation (commented out - uncomment to activate)
+# experiment_semantic_focus:
+#   file: variations/semantic_focus_v1.md
+#   parent: conversion_v1
+#   description: "Emphasizes semantic HTML5 elements"
+#   active: false
+#   parameters:
+#     temperature: 0.6
+#     max_tokens: 8000
+#   metadata:
+#     created: "2025-12-20"
+#     author: "agent"
+#     version: "1.0.0"
+#   tags:
+#     - experiment
+#     - semantic
+
+# Prompt selection strategy
+strategy:
+  default_prompt: conversion_v1
+  fallback_prompt: conversion_v1
+  use_best_performing: false  # When true, uses the prompt with best metrics

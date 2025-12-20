@@ -1,0 +1,28 @@
+# Core dependencies
+google-genai>=0.3.0
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+pyyaml>=6.0.1
+
+# HTML parsing and validation
+beautifulsoup4>=4.12.0
+html5lib>=1.1
+lxml>=4.9.0
+
+# CLI and utilities
+click>=8.1.0
+rich>=13.0.0
+jinja2>=3.1.0
+
+# Testing and quality
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+
+# Optional: Screenshot and visual comparison
+# playwright>=1.40.0
+# pillow>=10.0.0
+# imagehash>=4.3.0
+
+# Optional: Metrics and visualization
+# pandas>=2.0.0
+# matplotlib>=3.7.0
