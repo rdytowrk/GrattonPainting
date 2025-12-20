@@ -9,11 +9,12 @@
 **Solution Implemented:**
 - ✅ Updated `requirements.txt` to use `google-genai` instead of `google-generativeai`
 - ✅ Updated `src/agents/gemini_agent.py` to use the new API
-- ✅ Using Gemini 2.0 Flash (gemini-2.0-flash-exp)
+- ✅ Using Gemini 2.5 Flash (gemini-2.5-flash-latest) - newest model
 - ✅ Updated all API calls to use new `client.models.generate_content()` format
+- ✅ Free tier: 1 million tokens per day (no cost!)
 
 **Current Status:**
-The harness now uses the latest, supported Google Gemini API with no deprecation warnings.
+The harness now uses the latest, supported Google Gemini API with Gemini 2.5 Flash (newest, free) and no deprecation warnings.
 
 ## Other Notes
 

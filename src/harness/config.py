@@ -54,7 +54,7 @@ class HarnessConfig:
     
     def get_gemini_model(self) -> str:
         """Get Gemini model name."""
-        return os.getenv("GEMINI_MODEL", "gemini-2.0-flash-exp")
+        return os.getenv("GEMINI_MODEL", "gemini-2.5-flash-latest")
     
     def get_prompt_config(self, prompt_name: str) -> Dict[str, Any]:
         """Get configuration for a specific prompt."""

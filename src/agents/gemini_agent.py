@@ -28,9 +28,10 @@ class GeminiAgent:
         # Initialize Gemini client with new API
         self.client = genai.Client(api_key=api_key)
         
-        # Cost tracking (approximate rates for Gemini 2.0 Flash)
-        self.input_cost_per_1k = 0.00025  # $0.25 per 1M tokens
-        self.output_cost_per_1k = 0.00050  # $0.50 per 1M tokens
+        # Cost tracking (approximate rates for Gemini 2.5 Flash)
+        # Free tier: 1 million tokens per day
+        self.input_cost_per_1k = 0.0  # Free tier
+        self.output_cost_per_1k = 0.0  # Free tier
     
     def _get_generation_config(self, override: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Get generation configuration with optional overrides."""

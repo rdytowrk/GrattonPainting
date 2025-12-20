@@ -1,8 +1,8 @@
-# ✅ API Migration Complete - Now Using Gemini 2.0 Flash
+# ✅ API Migration Complete - Now Using Gemini 2.5 Flash
 
 ## What Changed
 
-Successfully migrated from the **deprecated** `google-generativeai` package to the **new** `google-genai` API with Gemini 2.0 Flash.
+Successfully migrated from the **deprecated** `google-generativeai` package to the **new** `google-genai` API with **Gemini 2.5 Flash** (newest, free).
 
 ### Package Update
 ```diff
@@ -13,7 +13,7 @@ Successfully migrated from the **deprecated** `google-generativeai` package to t
 ### Model Update
 ```diff
 - gemini-2.0-flash-exp (old API)
-+ gemini-2.0-flash-exp (new API, latest)
++ gemini-2.5-flash-latest (new API, newest & free)
 ```
 
 ---
@@ -21,10 +21,11 @@ Successfully migrated from the **deprecated** `google-generativeai` package to t
 ## ✅ Benefits
 
 1. **No More Deprecation Warnings** - Clean imports
-2. **Latest Gemini 2.0 Flash** - Better performance
-3. **Future-Proof** - Won't break in future
-4. **Official Support** - Google's current SDK
-5. **Better Features** - Access to latest capabilities
+2. **Latest Gemini 2.5 Flash** - Newest model, best performance
+3. **100% Free** - 1 million tokens per day free tier
+4. **Future-Proof** - Won't break in future
+5. **Official Support** - Google's current SDK
+6. **Better Features** - Access to latest capabilities
 
 ---
 
@@ -154,7 +155,7 @@ response = model.generate_content(prompt)
 ```python
 client = genai.Client(api_key=key)
 response = client.models.generate_content(
-    model="gemini-2.0-flash-exp",
+    model="gemini-2.5-flash-latest",
     contents=prompt,
     config=config
 )
@@ -210,7 +211,8 @@ response = client.models.generate_content(
 
 The harness now uses:
 - ✅ Latest `google-genai` package (supported)
-- ✅ Gemini 2.0 Flash model (fastest)
+- ✅ Gemini 2.5 Flash model (newest & fastest)
+- ✅ 100% Free tier (1M tokens/day)
 - ✅ No deprecation warnings
 - ✅ Future-proof implementation
 - ✅ All features working
