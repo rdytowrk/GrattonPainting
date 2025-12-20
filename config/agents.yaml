@@ -8,10 +8,10 @@ internal_agent:
   
   # API settings
   api:
-    retry_attempts: 3
-    retry_delay: 2  # seconds
+    retry_attempts: 5
+    retry_delay: 15  # seconds
     timeout: 60  # seconds
-    rate_limit_delay: 1  # seconds between requests
+    rate_limit_delay: 5  # seconds between requests
   
   # Generation parameters (defaults, can be overridden per prompt)
   generation:

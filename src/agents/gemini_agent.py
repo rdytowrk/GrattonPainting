@@ -120,7 +120,7 @@ class GeminiAgent:
             
             # Generate response with retry logic
             max_retries = self.api_config.get("retry_attempts", 3)
-            retry_delay = self.api_config.get("retry_delay", 2)
+            retry_delay = self.api_config.get("retry_delay", 15)
             
             response = None
             last_error = None
@@ -140,7 +140,11 @@ class GeminiAgent:
                     break
                 except Exception as e:
                     last_error = e
-                    if attempt < max_retries - 1:
+                    if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
+                        print(f"⚠️ Quota exceeded. Retrying in {retry_delay}s... (Attempt {attempt+1}/{max_retries})")
+                        time.sleep(retry_delay)
+                        retry_delay *= 1.5  # Exponential backoff
+                    elif attempt < max_retries - 1:
                         time.sleep(retry_delay)
                     continue
             
