@@ -1,0 +1,188 @@
+name: Manual Test Execution
+
+on:
+  workflow_dispatch:
+    inputs:
+      prompt_name:
+        description: 'Prompt name to test'
+        required: true
+        default: 'base_v1'
+        type: string
+      
+      test_cases:
+        description: 'Test cases to run'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - simple
+          - medium
+          - complex
+      
+      test_ids:
+        description: 'Specific test case IDs (comma-separated, leave empty for category-based)'
+        required: false
+        type: string
+      
+      verbose:
+        description: 'Verbose output'
+        required: false
+        default: true
+        type: boolean
+      
+      generate_comparison:
+        description: 'Generate comparison with previous run'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  manual-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Initialize harness
+        run: |
+          echo "Initializing harness..."
+          python scripts/init_harness.py || echo "Initialization completed with warnings"
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      
+      - name: List test cases
+        run: |
+          echo "=== Available Test Cases ==="
+          python scripts/list_test_cases.py --stats
+          echo ""
+          echo "=== Test Case Details ==="
+          python scripts/list_test_cases.py --verbose
+      
+      - name: Run tests
+        id: run-tests
+        run: |
+          PROMPT_NAME="${{ github.event.inputs.prompt_name }}"
+          TEST_CASES="${{ github.event.inputs.test_cases }}"
+          TEST_IDS="${{ github.event.inputs.test_ids }}"
+          VERBOSE="${{ github.event.inputs.verbose }}"
+          
+          echo "Running tests with:"
+          echo "  Prompt: $PROMPT_NAME"
+          echo "  Test cases: $TEST_CASES"
+          echo "  Test IDs: $TEST_IDS"
+          echo "  Verbose: $VERBOSE"
+          
+          CMD="python scripts/run_tests.py --prompt $PROMPT_NAME"
+          
+          if [ -n "$TEST_IDS" ]; then
+            # Run specific test IDs
+            for TEST_ID in $(echo $TEST_IDS | tr ',' ' '); do
+              CMD="$CMD --test $TEST_ID"
+            done
+          elif [ "$TEST_CASES" = "all" ]; then
+            CMD="$CMD --all"
+          else
+            CMD="$CMD --category $TEST_CASES"
+          fi
+          
+          if [ "$VERBOSE" = "true" ]; then
+            CMD="$CMD --verbose"
+          fi
+          
+          CMD="$CMD --description 'Manual test run via GitHub Actions'"
+          
+          echo "Executing: $CMD"
+          eval $CMD || echo "Tests completed with some failures"
+          
+          RUN_ID=$(ls -t results/runs/ | head -1)
+          echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        continue-on-error: true
+      
+      - name: Generate report
+        if: always() && steps.run-tests.outputs.run_id != ''
+        run: |
+          RUN_ID="${{ steps.run-tests.outputs.run_id }}"
+          
+          echo "Generating detailed report..."
+          python scripts/generate_report.py \
+            --run "$RUN_ID" \
+            --format markdown
+          
+          python scripts/generate_report.py \
+            --run "$RUN_ID" \
+            --format json
+          
+          # Display summary
+          cat "results/reports/${RUN_ID}.md" | head -100
+      
+      - name: Generate comparison report
+        if: github.event.inputs.generate_comparison == 'true' && steps.run-tests.outputs.run_id != ''
+        run: |
+          RUNS=($(ls -t results/runs/ | head -2))
+          
+          if [ ${#RUNS[@]} -eq 2 ]; then
+            echo "Generating comparison between runs..."
+            python scripts/generate_report.py \
+              --compare "${RUNS[0]},${RUNS[1]}"
+            
+            echo "=== Comparison Report ==="
+            cat results/reports/comparison_*.md 2>/dev/null || echo "Comparison report not generated"
+          else
+            echo "Not enough runs to compare (need at least 2)"
+          fi
+      
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: manual-test-results
+          path: |
+            results/
+          retention-days: 90
+      
+      - name: Create summary
+        if: always() && steps.run-tests.outputs.run_id != ''
+        run: |
+          RUN_ID="${{ steps.run-tests.outputs.run_id }}"
+          REPORT_JSON="results/reports/${RUN_ID}.json"
+          
+          if [ -f "$REPORT_JSON" ]; then
+            echo "# Test Results Summary" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Run ID:** \`$RUN_ID\`" >> $GITHUB_STEP_SUMMARY
+            echo "**Prompt:** ${{ github.event.inputs.prompt_name }}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            PASSED=$(jq '.summary.passed_evaluations' "$REPORT_JSON")
+            TOTAL=$(jq '.summary.total_tests' "$REPORT_JSON")
+            AVG_SCORE=$(jq '.summary.average_weighted_score' "$REPORT_JSON")
+            COST=$(jq '.performance.total_cost' "$REPORT_JSON")
+            
+            echo "## Results" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "- **Tests Passed:** $PASSED / $TOTAL" >> $GITHUB_STEP_SUMMARY
+            echo "- **Average Score:** $AVG_SCORE" >> $GITHUB_STEP_SUMMARY
+            echo "- **Total Cost:** \$$COST" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            if [ "$PASSED" -eq "$TOTAL" ]; then
+              echo "✅ **All tests passed!**" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "⚠️ **Some tests failed. Check the detailed report.**" >> $GITHUB_STEP_SUMMARY
+            fi
+          fi

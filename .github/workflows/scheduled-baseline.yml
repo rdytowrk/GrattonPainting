@@ -1,0 +1,174 @@
+name: Scheduled Baseline Tests
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  
+  workflow_dispatch:
+    inputs:
+      notify:
+        description: 'Send notification on failure'
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  baseline-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Run baseline tests
+        id: baseline
+        run: |
+          echo "Running baseline tests with base_v1 prompt..."
+          python scripts/init_harness.py
+          
+          python scripts/run_tests.py \
+            --all \
+            --prompt base_v1 \
+            --description "Scheduled baseline test - $(date +%Y-%m-%d)" \
+            --verbose
+          
+          RUN_ID=$(ls -t results/runs/ | head -1)
+          echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        continue-on-error: true
+      
+      - name: Generate report
+        if: always() && steps.baseline.outputs.run_id != ''
+        run: |
+          RUN_ID="${{ steps.baseline.outputs.run_id }}"
+          
+          python scripts/generate_report.py \
+            --run "$RUN_ID" \
+            --format markdown
+          
+          python scripts/generate_report.py \
+            --run "$RUN_ID" \
+            --format json
+      
+      - name: Compare with previous baseline
+        id: compare
+        if: always() && steps.baseline.outputs.run_id != ''
+        run: |
+          RUNS=($(ls -t results/runs/ | head -2))
+          
+          if [ ${#RUNS[@]} -eq 2 ]; then
+            python scripts/generate_report.py \
+              --compare "${RUNS[0]},${RUNS[1]}" \
+              --output results/reports/daily_comparison.md
+            
+            echo "has_comparison=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_comparison=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Check for regressions
+        id: regression-check
+        if: steps.compare.outputs.has_comparison == 'true'
+        run: |
+          # Get scores from the two latest runs
+          RUNS=($(ls -t results/runs/ | head -2))
+          
+          LATEST_SCORE=$(jq '.summary.average_weighted_score' "results/reports/${RUNS[0]}.json")
+          PREVIOUS_SCORE=$(jq '.summary.average_weighted_score' "results/reports/${RUNS[1]}.json")
+          
+          echo "Latest score: $LATEST_SCORE"
+          echo "Previous score: $PREVIOUS_SCORE"
+          
+          # Check if score dropped by more than 5%
+          REGRESSION=$(echo "$LATEST_SCORE < $PREVIOUS_SCORE * 0.95" | bc -l)
+          
+          if [ "$REGRESSION" -eq 1 ]; then
+            echo "regression=true" >> $GITHUB_OUTPUT
+            echo "⚠️ Regression detected: Score dropped from $PREVIOUS_SCORE to $LATEST_SCORE"
+          else
+            echo "regression=false" >> $GITHUB_OUTPUT
+            echo "✅ No significant regression"
+          fi
+      
+      - name: Upload baseline results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: baseline-results-${{ github.run_number }}
+          path: |
+            results/
+          retention-days: 90
+      
+      - name: Create summary
+        if: always() && steps.baseline.outputs.run_id != ''
+        run: |
+          RUN_ID="${{ steps.baseline.outputs.run_id }}"
+          REPORT_JSON="results/reports/${RUN_ID}.json"
+          
+          echo "# Baseline Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Date:** $(date +%Y-%m-%d)" >> $GITHUB_STEP_SUMMARY
+          echo "**Run ID:** \`$RUN_ID\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -f "$REPORT_JSON" ]; then
+            PASSED=$(jq '.summary.passed_evaluations' "$REPORT_JSON")
+            TOTAL=$(jq '.summary.total_tests' "$REPORT_JSON")
+            AVG_SCORE=$(jq '.summary.average_weighted_score' "$REPORT_JSON")
+            
+            echo "## Results" >> $GITHUB_STEP_SUMMARY
+            echo "- Tests Passed: $PASSED / $TOTAL" >> $GITHUB_STEP_SUMMARY
+            echo "- Average Score: $AVG_SCORE" >> $GITHUB_STEP_SUMMARY
+            
+            if [ "${{ steps.regression-check.outputs.regression }}" = "true" ]; then
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "⚠️ **Regression Detected** - Score dropped significantly" >> $GITHUB_STEP_SUMMARY
+            fi
+          fi
+      
+      - name: Create issue on regression
+        if: steps.regression-check.outputs.regression == 'true' && (github.event.inputs.notify == 'true' || github.event_name == 'schedule')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runId = '${{ steps.baseline.outputs.run_id }}';
+            
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `⚠️ Baseline Test Regression Detected - ${new Date().toISOString().split('T')[0]}`,
+              body: `## Regression Alert
+              
+              The baseline tests have shown a significant regression in quality scores.
+              
+              **Run ID:** \`${runId}\`
+              **Date:** ${new Date().toLocaleDateString()}
+              
+              ### Action Required
+              
+              Please review the test results and investigate:
+              1. Check the detailed report in the workflow artifacts
+              2. Review recent changes to prompts or code
+              3. Run manual tests to confirm the issue
+              
+              ### View Results
+              
+              - [Workflow Run](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})
+              - [Download Artifacts](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}#artifacts)
+              
+              ---
+              *Automated by scheduled baseline tests*`,
+              labels: ['regression', 'automated', 'needs-investigation']
+            });
