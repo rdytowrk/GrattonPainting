@@ -127,9 +127,18 @@ jobs:
           fi
           echo "prompt_name=$PROMPT_NAME" >> $GITHUB_OUTPUT
       
+      - name: Test API connection
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          echo "Testing Gemini API connection..."
+          python scripts/test_gemini_api.py || echo "⚠️ API test failed but continuing..."
+      
       - name: Run tests
         id: run-tests
         if: steps.check-tests.outputs.has_tests == 'true'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           PROMPT_NAME="${{ steps.determine-prompt.outputs.prompt_name }}"
           TEST_CATEGORY="${{ github.event.inputs.test_category || 'all' }}"
