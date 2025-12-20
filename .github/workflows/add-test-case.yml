@@ -123,59 +123,9 @@ jobs:
         run: |
           pip install -r requirements.txt
       
-      - name: Validate test case metadata
+      - name: Validate test case metadata and files
         run: |
-          echo "Validating test case metadata..."
-          python -c "
-import json
-import sys
-
-with open('test_cases/metadata.json', 'r') as f:
-    metadata = json.load(f)
-
-print(f'Total test cases: {metadata[\"total_cases\"]}')
-print(f'Categories: {dict(metadata[\"categories\"])}')
-print(f'Tags: {list(metadata[\"tags\"].keys())}')
-
-# Validate structure
-required_keys = ['test_cases', 'version', 'total_cases', 'categories', 'tags']
-for key in required_keys:
-    if key not in metadata:
-        print(f'❌ Missing required key: {key}')
-        sys.exit(1)
-
-print('✅ Metadata validation passed')
-"
-      
-      - name: Check test case files exist
-        run: |
-          echo "Checking test case files..."
-          python -c "
-import json
-from pathlib import Path
-
-with open('test_cases/metadata.json', 'r') as f:
-    metadata = json.load(f)
-
-errors = []
-for test_case in metadata['test_cases']:
-    input_path = Path(test_case['input_path'])
-    if not input_path.exists():
-        errors.append(f'Missing input file: {input_path}')
-    
-    if test_case.get('expected_output_path'):
-        output_path = Path(test_case['expected_output_path'])
-        if not output_path.exists():
-            errors.append(f'Missing expected output file: {output_path}')
-
-if errors:
-    print('❌ Validation errors:')
-    for error in errors:
-        print(f'  - {error}')
-    exit(1)
-else:
-    print('✅ All test case files exist')
-"
+          python scripts/validate_test_cases.py
       
       - name: List test cases
         run: |
