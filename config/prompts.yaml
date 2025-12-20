@@ -3,7 +3,7 @@
 
 prompts:
   conversion_v1:
-    file: prompts/base/conversion_v1.md
+    file: base/conversion_v1.md
     description: "Base HTML to Tailwind conversion prompt"
     active: true
     parameters:
@@ -20,7 +20,7 @@ prompts:
 
 # Example variation (commented out - uncomment to activate)
 # experiment_semantic_focus:
-#   file: prompts/variations/semantic_focus_v1.md
+#   file: variations/semantic_focus_v1.md
 #   parent: conversion_v1
 #   description: "Emphasizes semantic HTML5 elements"
 #   active: false
