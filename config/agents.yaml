@@ -4,7 +4,7 @@
 # Internal Agent (Gemini API)
 internal_agent:
   provider: google_gemini
-  model: gemini-2.5-flash-latest  # Gemini 2.5 Flash (newest, free)
+  model: gemini-2.5-flash-exp  # Gemini 2.5 Flash experimental (newest, free)
   
   # API settings
   api:
