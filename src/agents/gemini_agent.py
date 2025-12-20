@@ -28,8 +28,8 @@ class GeminiAgent:
         # Initialize Gemini client with new API
         self.client = genai.Client(api_key=api_key)
         
-        # Cost tracking (approximate rates for Gemini 1.5 Flash)
-        # Free tier: 15 RPM, 1M TPM, 1.5K RPD
+        # Cost tracking (approximate rates for Gemini 2.5 Flash)
+        # Free tier: High limits for developers
         self.input_cost_per_1k = 0.0  # Free tier
         self.output_cost_per_1k = 0.0  # Free tier
     
