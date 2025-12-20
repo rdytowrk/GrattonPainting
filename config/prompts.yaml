@@ -2,7 +2,7 @@
 # Define prompt templates and their variations
 
 prompts:
-  base_v1:
+  conversion_v1:
     file: prompts/base/conversion_v1.md
     description: "Base HTML to Tailwind conversion prompt"
     active: true
@@ -21,7 +21,7 @@ prompts:
 # Example variation (commented out - uncomment to activate)
 # experiment_semantic_focus:
 #   file: prompts/variations/semantic_focus_v1.md
-#   parent: base_v1
+#   parent: conversion_v1
 #   description: "Emphasizes semantic HTML5 elements"
 #   active: false
 #   parameters:
@@ -37,6 +37,6 @@ prompts:
 
 # Prompt selection strategy
 strategy:
-  default_prompt: base_v1
-  fallback_prompt: base_v1
+  default_prompt: conversion_v1
+  fallback_prompt: conversion_v1
   use_best_performing: false  # When true, uses the prompt with best metrics
