@@ -3,176 +3,259 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gratton's Painting LLC — Design Chooser</title>
     <meta
       name="description"
-      content="Gratton Painting delivers residential and commercial painting with reliable prep, clean finishes, and friendly service."
+      content="Preview five homepage design options for Gratton's Painting LLC and pick the one you want to launch."
     />
-    <title>Gratton Painting | Interior & Exterior Painting</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <style>
+      :root {
+        --brown: #3f2113;
+        --brown-soft: #6b4229;
+        --orange: #ef8b1b;
+        --teal: #1b8b7c;
+        --sand: #f3e3c3;
+        --cream: #fdf6e6;
+        --surface: #ffffff;
+        --border: #e3d5b8;
+        --radius: 14px;
+        --shadow: 0 10px 28px rgba(63, 33, 19, 0.1);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Source Sans 3", system-ui, sans-serif;
+        background: var(--cream);
+        color: var(--brown);
+        line-height: 1.6;
+      }
+
+      .wrap {
+        width: min(1100px, 92%);
+        margin: 0 auto;
+        padding: 48px 0 64px;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .logo {
+        width: min(280px, 70%);
+        margin: 0 auto 20px;
+      }
+
+      h1 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: clamp(1.8rem, 3vw, 2.6rem);
+        margin: 0 0 10px;
+      }
+
+      .lede {
+        color: var(--brown-soft);
+        max-width: 58ch;
+        margin: 0 auto;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 22px;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 14px 36px rgba(63, 33, 19, 0.14);
+      }
+
+      .swatch {
+        height: 120px;
+      }
+
+      .swatch-v1 {
+        background: linear-gradient(135deg, #fdf6e6, #f7c948 55%, #1b8b7c);
+      }
+
+      .swatch-v2 {
+        background: linear-gradient(135deg, #ef8b1b, #d1700f 40%, #3f2113);
+      }
+
+      .swatch-v3 {
+        background: linear-gradient(135deg, #ffffff, #f3e3c3 60%, #1b8b7c);
+      }
+
+      .swatch-v4 {
+        background: linear-gradient(135deg, #12554b, #1b8b7c 45%, #f7c948);
+      }
+
+      .swatch-v5 {
+        background: linear-gradient(135deg, #ef8b1b, #fdf6e6 50%, #3f2113);
+      }
+
+      .card-body {
+        padding: 22px;
+      }
+
+      .card h2 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 1.35rem;
+        margin: 0 0 6px;
+      }
+
+      .tag {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--teal);
+        margin-bottom: 10px;
+      }
+
+      .card p {
+        margin: 0 0 16px;
+        color: var(--brown-soft);
+        font-size: 0.95rem;
+      }
+
+      .btn {
+        display: inline-block;
+        background: var(--orange);
+        color: #2a1409;
+        text-decoration: none;
+        font-weight: 700;
+        padding: 11px 20px;
+        border-radius: 999px;
+      }
+
+      .btn:hover {
+        background: #d1700f;
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 48px;
+        color: var(--brown-soft);
+        font-size: 0.92rem;
+      }
+
+      footer a {
+        color: var(--teal);
+        font-weight: 600;
+      }
+    </style>
   </head>
   <body>
-    <header class="site-header">
-      <div class="container nav-wrap">
-        <a href="#top" class="brand">Gratton Painting</a>
-        <nav aria-label="Primary navigation">
-          <ul class="nav-list">
-            <li><a href="#services">Services</a></li>
-            <li><a href="#work">Our Work</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </nav>
-        <a class="btn btn-small" href="#contact">Get a Quote</a>
-      </div>
-    </header>
+    <div class="wrap">
+      <header>
+        <img
+          class="logo"
+          src="assets/logo.svg"
+          alt="Gratton's Painting LLC"
+        />
+        <h1>Choose a homepage design</h1>
+        <p class="lede">
+          Five distinct layouts built with your brand colors, logo, and
+          contact info. Open each preview, pick your favorite, and we'll polish
+          that version for launch.
+        </p>
+      </header>
 
-    <main id="top">
-      <section class="hero">
-        <div class="container hero-grid">
-          <div>
-            <p class="eyebrow">Trusted Local Painter</p>
-            <h1>Professional painting that makes your space feel new again.</h1>
-            <p class="hero-copy">
-              From single-room refreshes to full exterior projects, Gratton
-              Painting delivers detailed prep, clean lines, and durable
-              finishes.
-            </p>
-            <div class="hero-actions">
-              <a class="btn" href="#contact">Request Free Estimate</a>
-              <a class="btn btn-outline" href="#work">See Recent Work</a>
-            </div>
-          </div>
-          <div class="hero-card" aria-hidden="true">
-            <h2>Why homeowners choose us</h2>
-            <ul>
-              <li>Licensed and insured</li>
-              <li>Clear upfront pricing</li>
-              <li>Meticulous prep and cleanup</li>
-              <li>Color guidance available</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section id="services" class="section">
-        <div class="container">
-          <h2>Services</h2>
-          <div class="card-grid">
-            <article class="card">
-              <h3>Interior Painting</h3>
-              <p>
-                Walls, ceilings, trim, and cabinetry finished with smooth,
-                even coats and low-odor options.
-              </p>
-            </article>
-            <article class="card">
-              <h3>Exterior Painting</h3>
-              <p>
-                Siding, brick, stucco, decks, and fences prepared and coated
-                for long-lasting protection.
-              </p>
-            </article>
-            <article class="card">
-              <h3>Repairs & Prep</h3>
-              <p>
-                Drywall patching, caulking, sanding, and priming to ensure your
-                final coat looks sharp and lasts.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="work" class="section section-muted">
-        <div class="container">
-          <h2>Recent Work</h2>
-          <p class="section-copy">
-            Replace these placeholders with photos of completed projects.
-          </p>
-          <div class="gallery-grid">
-            <figure class="gallery-item">
-              <div class="placeholder" aria-hidden="true">Living Room</div>
-              <figcaption>Bright interior repaint with satin trim.</figcaption>
-            </figure>
-            <figure class="gallery-item">
-              <div class="placeholder" aria-hidden="true">Exterior</div>
-              <figcaption>Full exterior refresh with weatherproof coating.</figcaption>
-            </figure>
-            <figure class="gallery-item">
-              <div class="placeholder" aria-hidden="true">Kitchen</div>
-              <figcaption>Cabinet and wall update in modern neutrals.</figcaption>
-            </figure>
-          </div>
-        </div>
-      </section>
-
-      <section id="about" class="section">
-        <div class="container about-wrap">
-          <div>
-            <h2>About Gratton Painting</h2>
+      <div class="grid">
+        <article class="card">
+          <div class="swatch swatch-v1" aria-hidden="true"></div>
+          <div class="card-body">
+            <span class="tag">Version 1</span>
+            <h2>Coastal Classic</h2>
             <p>
-              We are a small local team focused on quality craftsmanship and
-              reliable communication. Every job starts with careful prep and
-              ends with a spotless walkthrough.
+              Warm cream palette, serif headlines, and a balanced layout that
+              mirrors your logo's coastal feel.
             </p>
-            <p>
-              Need help picking colors? We can recommend palettes that match
-              your lighting, style, and goals.
-            </p>
+            <a class="btn" href="versions/v1-coastal-classic/">Preview</a>
           </div>
-          <aside class="testimonial">
-            <blockquote>
-              “Great communication, fair pricing, and flawless results. We’ll
-              absolutely hire Gratton Painting again.”
-            </blockquote>
-            <p class="testimonial-author">— Homeowner, local client</p>
-          </aside>
-        </div>
-      </section>
+        </article>
 
-      <section id="contact" class="section section-accent">
-        <div class="container">
-          <h2>Request a Free Estimate</h2>
-          <p class="section-copy">
-            Tell us about your project and we’ll get back to you quickly.
-          </p>
-          <form class="contact-form" action="#" method="post">
-            <label>
-              Name
-              <input type="text" name="name" required />
-            </label>
-            <label>
-              Email
-              <input type="email" name="email" required />
-            </label>
-            <label>
-              Phone
-              <input type="tel" name="phone" />
-            </label>
-            <label class="full-width">
-              Project Details
-              <textarea name="message" rows="5" required></textarea>
-            </label>
-            <button class="btn" type="submit">Send Request</button>
-          </form>
-          <p id="form-status" class="form-status" aria-live="polite"></p>
-        </div>
-      </section>
-    </main>
+        <article class="card">
+          <div class="swatch swatch-v2" aria-hidden="true"></div>
+          <div class="card-body">
+            <span class="tag">Version 2</span>
+            <h2>Sunset Bold</h2>
+            <p>
+              High-contrast sunset orange hero, strong typography, and a
+              confident contractor-first tone.
+            </p>
+            <a class="btn" href="versions/v2-sunset-bold/">Preview</a>
+          </div>
+        </article>
 
-    <footer class="site-footer">
-      <div class="container footer-wrap">
-        <p>&copy; <span id="year"></span> Gratton Painting. All rights reserved.</p>
-        <a href="mailto:hello@grattonpainting.com">hello@grattonpainting.com</a>
+        <article class="card">
+          <div class="swatch swatch-v3" aria-hidden="true"></div>
+          <div class="card-body">
+            <span class="tag">Version 3</span>
+            <h2>Clean Minimal</h2>
+            <p>
+              Lots of whitespace, crisp sans-serif type, and a refined look for
+              upscale neighborhoods.
+            </p>
+            <a class="btn" href="versions/v3-clean-minimal/">Preview</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="swatch swatch-v4" aria-hidden="true"></div>
+          <div class="card-body">
+            <span class="tag">Version 4</span>
+            <h2>Gallery First</h2>
+            <p>
+              Project photos front and center so visitors see your work before
+              anything else.
+            </p>
+            <a class="btn" href="versions/v4-gallery-first/">Preview</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="swatch swatch-v5" aria-hidden="true"></div>
+          <div class="card-body">
+            <span class="tag">Version 5</span>
+            <h2>Quote Focused</h2>
+            <p>
+              Conversion-driven layout with sticky call bar, estimate form above
+              the fold, and repeated CTAs.
+            </p>
+            <a class="btn" href="versions/v5-quote-focused/">Preview</a>
+          </div>
+        </article>
       </div>
-    </footer>
 
-    <script src="script.js"></script>
+      <footer>
+        <p>
+          Gratton's Painting LLC &middot;
+          <a href="tel:+19417733021">(941) 773-3021</a>
+        </p>
+      </footer>
+    </div>
   </body>
 </html>
