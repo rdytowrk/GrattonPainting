@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - pr-3
     paths:
       - "GrattonPainting/**"
       - ".github/workflows/deploy-pages.yml"
