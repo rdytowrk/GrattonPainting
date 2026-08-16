@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Gratton Painting delivers residential and commercial painting with reliable prep, clean finishes, and friendly service."
+    />
+    <title>Gratton Painting | Interior & Exterior Painting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a href="#top" class="brand">Gratton Painting</a>
+        <nav aria-label="Primary navigation">
+          <ul class="nav-list">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#work">Our Work</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+        <a class="btn btn-small" href="#contact">Get a Quote</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <p class="eyebrow">Trusted Local Painter</p>
+            <h1>Professional painting that makes your space feel new again.</h1>
+            <p class="hero-copy">
+              From single-room refreshes to full exterior projects, Gratton
+              Painting delivers detailed prep, clean lines, and durable
+              finishes.
+            </p>
+            <div class="hero-actions">
+              <a class="btn" href="#contact">Request Free Estimate</a>
+              <a class="btn btn-outline" href="#work">See Recent Work</a>
+            </div>
+          </div>
+          <div class="hero-card" aria-hidden="true">
+            <h2>Why homeowners choose us</h2>
+            <ul>
+              <li>Licensed and insured</li>
+              <li>Clear upfront pricing</li>
+              <li>Meticulous prep and cleanup</li>
+              <li>Color guidance available</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" class="section">
+        <div class="container">
+          <h2>Services</h2>
+          <div class="card-grid">
+            <article class="card">
+              <h3>Interior Painting</h3>
+              <p>
+                Walls, ceilings, trim, and cabinetry finished with smooth,
+                even coats and low-odor options.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Exterior Painting</h3>
+              <p>
+                Siding, brick, stucco, decks, and fences prepared and coated
+                for long-lasting protection.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Repairs & Prep</h3>
+              <p>
+                Drywall patching, caulking, sanding, and priming to ensure your
+                final coat looks sharp and lasts.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="work" class="section section-muted">
+        <div class="container">
+          <h2>Recent Work</h2>
+          <p class="section-copy">
+            Replace these placeholders with photos of completed projects.
+          </p>
+          <div class="gallery-grid">
+            <figure class="gallery-item">
+              <div class="placeholder" aria-hidden="true">Living Room</div>
+              <figcaption>Bright interior repaint with satin trim.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <div class="placeholder" aria-hidden="true">Exterior</div>
+              <figcaption>Full exterior refresh with weatherproof coating.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <div class="placeholder" aria-hidden="true">Kitchen</div>
+              <figcaption>Cabinet and wall update in modern neutrals.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="container about-wrap">
+          <div>
+            <h2>About Gratton Painting</h2>
+            <p>
+              We are a small local team focused on quality craftsmanship and
+              reliable communication. Every job starts with careful prep and
+              ends with a spotless walkthrough.
+            </p>
+            <p>
+              Need help picking colors? We can recommend palettes that match
+              your lighting, style, and goals.
+            </p>
+          </div>
+          <aside class="testimonial">
+            <blockquote>
+              “Great communication, fair pricing, and flawless results. We’ll
+              absolutely hire Gratton Painting again.”
+            </blockquote>
+            <p class="testimonial-author">— Homeowner, local client</p>
+          </aside>
+        </div>
+      </section>
+
+      <section id="contact" class="section section-accent">
+        <div class="container">
+          <h2>Request a Free Estimate</h2>
+          <p class="section-copy">
+            Tell us about your project and we’ll get back to you quickly.
+          </p>
+          <form class="contact-form" action="#" method="post">
+            <label>
+              Name
+              <input type="text" name="name" required />
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" required />
+            </label>
+            <label>
+              Phone
+              <input type="tel" name="phone" />
+            </label>
+            <label class="full-width">
+              Project Details
+              <textarea name="message" rows="5" required></textarea>
+            </label>
+            <button class="btn" type="submit">Send Request</button>
+          </form>
+          <p id="form-status" class="form-status" aria-live="polite"></p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-wrap">
+        <p>&copy; <span id="year"></span> Gratton Painting. All rights reserved.</p>
+        <a href="mailto:hello@grattonpainting.com">hello@grattonpainting.com</a>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
