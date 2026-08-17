@@ -3,259 +3,326 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gratton's Painting LLC — Design Chooser</title>
+    <title>Gratton Painting LLC | Residential Painting and Surface Restoration</title>
     <meta
       name="description"
-      content="Preview five homepage design options for Gratton's Painting LLC and pick the one you want to launch."
+      content="Gratton Painting LLC provides interior and exterior painting, coatings, and surface restoration services throughout Bradenton, Sarasota, Manatee County, and surrounding areas."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <style>
-      :root {
-        --brown: #3f2113;
-        --brown-soft: #6b4229;
-        --orange: #ef8b1b;
-        --teal: #1b8b7c;
-        --sand: #f3e3c3;
-        --cream: #fdf6e6;
-        --surface: #ffffff;
-        --border: #e3d5b8;
-        --radius: 14px;
-        --shadow: 0 10px 28px rgba(63, 33, 19, 0.1);
-      }
-
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        font-family: "Source Sans 3", system-ui, sans-serif;
-        background: var(--cream);
-        color: var(--brown);
-        line-height: 1.6;
-      }
-
-      .wrap {
-        width: min(1100px, 92%);
-        margin: 0 auto;
-        padding: 48px 0 64px;
-      }
-
-      header {
-        text-align: center;
-        margin-bottom: 40px;
-      }
-
-      .logo {
-        width: min(280px, 70%);
-        margin: 0 auto 20px;
-      }
-
-      h1 {
-        font-family: "Playfair Display", Georgia, serif;
-        font-size: clamp(1.8rem, 3vw, 2.6rem);
-        margin: 0 0 10px;
-      }
-
-      .lede {
-        color: var(--brown-soft);
-        max-width: 58ch;
-        margin: 0 auto;
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 22px;
-      }
-
-      .card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        overflow: hidden;
-        transition: transform 0.15s ease, box-shadow 0.15s ease;
-      }
-
-      .card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 14px 36px rgba(63, 33, 19, 0.14);
-      }
-
-      .swatch {
-        height: 120px;
-      }
-
-      .swatch-v1 {
-        background: linear-gradient(135deg, #fdf6e6, #f7c948 55%, #1b8b7c);
-      }
-
-      .swatch-v2 {
-        background: linear-gradient(135deg, #ef8b1b, #d1700f 40%, #3f2113);
-      }
-
-      .swatch-v3 {
-        background: linear-gradient(135deg, #ffffff, #f3e3c3 60%, #1b8b7c);
-      }
-
-      .swatch-v4 {
-        background: linear-gradient(135deg, #12554b, #1b8b7c 45%, #f7c948);
-      }
-
-      .swatch-v5 {
-        background: linear-gradient(135deg, #ef8b1b, #fdf6e6 50%, #3f2113);
-      }
-
-      .card-body {
-        padding: 22px;
-      }
-
-      .card h2 {
-        font-family: "Playfair Display", Georgia, serif;
-        font-size: 1.35rem;
-        margin: 0 0 6px;
-      }
-
-      .tag {
-        display: inline-block;
-        font-size: 0.75rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--teal);
-        margin-bottom: 10px;
-      }
-
-      .card p {
-        margin: 0 0 16px;
-        color: var(--brown-soft);
-        font-size: 0.95rem;
-      }
-
-      .btn {
-        display: inline-block;
-        background: var(--orange);
-        color: #2a1409;
-        text-decoration: none;
-        font-weight: 700;
-        padding: 11px 20px;
-        border-radius: 999px;
-      }
-
-      .btn:hover {
-        background: #d1700f;
-      }
-
-      footer {
-        text-align: center;
-        margin-top: 48px;
-        color: var(--brown-soft);
-        font-size: 0.92rem;
-      }
-
-      footer a {
-        color: var(--teal);
-        font-weight: 600;
-      }
-    </style>
+    <link rel="stylesheet" href="versions/v2-sunset-bold/styles.css" />
   </head>
   <body>
-    <div class="wrap">
-      <header>
-        <img
-          class="logo"
-          src="assets/logo.svg"
-          alt="Gratton's Painting LLC"
-        />
-        <h1>Choose a homepage design</h1>
-        <p class="lede">
-          Five distinct layouts built with your brand colors, logo, and
-          contact info. Open each preview, pick your favorite, and we'll polish
-          that version for launch.
-        </p>
-      </header>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-      <div class="grid">
-        <article class="card">
-          <div class="swatch swatch-v1" aria-hidden="true"></div>
-          <div class="card-body">
-            <span class="tag">Version 1</span>
-            <h2>Coastal Classic</h2>
-            <p>
-              Warm cream palette, serif headlines, and a balanced layout that
-              mirrors your logo's coastal feel.
-            </p>
-            <a class="btn" href="versions/v1-coastal-classic/">Preview</a>
-          </div>
-        </article>
+    <header class="masthead" id="top">
+      <div class="shell masthead-row">
+        <a class="mark" href="#top">
+          <img src="assets/logo-mark.svg" alt="" width="52" height="52" />
+          <span class="mark-type">
+            <b>Gratton Painting</b>
+            <i>LLC · Bradenton and Sarasota</i>
+          </span>
+        </a>
 
-        <article class="card">
-          <div class="swatch swatch-v2" aria-hidden="true"></div>
-          <div class="card-body">
-            <span class="tag">Version 2</span>
-            <h2>Sunset Bold</h2>
-            <p>
-              High-contrast sunset orange hero, strong typography, and a
-              confident contractor-first tone.
-            </p>
-            <a class="btn" href="versions/v2-sunset-bold/">Preview</a>
-          </div>
-        </article>
+        <button
+          class="burger"
+          type="button"
+          data-nav-toggle
+          aria-expanded="false"
+          aria-controls="main-nav"
+        >
+          <span class="burger-bars" aria-hidden="true"></span>
+          Menu
+        </button>
 
-        <article class="card">
-          <div class="swatch swatch-v3" aria-hidden="true"></div>
-          <div class="card-body">
-            <span class="tag">Version 3</span>
-            <h2>Clean Minimal</h2>
-            <p>
-              Lots of whitespace, crisp sans-serif type, and a refined look for
-              upscale neighborhoods.
-            </p>
-            <a class="btn" href="versions/v3-clean-minimal/">Preview</a>
-          </div>
-        </article>
+        <nav id="main-nav" class="mainnav" data-nav aria-label="Primary">
+          <a href="#services">Services</a>
+          <a href="#process">Process</a>
+          <a href="#coverage">Service Area</a>
+          <a href="#contact">Contact</a>
+          <a class="mainnav-call" href="tel:+19417733021">(941) 773-3021</a>
+        </nav>
 
-        <article class="card">
-          <div class="swatch swatch-v4" aria-hidden="true"></div>
-          <div class="card-body">
-            <span class="tag">Version 4</span>
-            <h2>Gallery First</h2>
-            <p>
-              Project photos front and center so visitors see your work before
-              anything else.
-            </p>
-            <a class="btn" href="versions/v4-gallery-first/">Preview</a>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="swatch swatch-v5" aria-hidden="true"></div>
-          <div class="card-body">
-            <span class="tag">Version 5</span>
-            <h2>Quote Focused</h2>
-            <p>
-              Conversion-driven layout with sticky call bar, estimate form above
-              the fold, and repeated CTAs.
-            </p>
-            <a class="btn" href="versions/v5-quote-focused/">Preview</a>
-          </div>
-        </article>
+        <a class="slab slab-sun masthead-cta" href="#contact">Free Estimate</a>
       </div>
+    </header>
 
-      <footer>
-        <p>
-          Gratton's Painting LLC &middot;
-          <a href="tel:+19417733021">(941) 773-3021</a>
+    <main id="main">
+      <section class="blast">
+        <div class="shell blast-grid">
+          <div class="blast-copy">
+            <p class="kicker">Bradenton · Sarasota · Manatee County</p>
+            <h1>
+              Quality work.<br />
+              Honest service.<br />
+              <em>Built to last.</em>
+            </h1>
+            <p class="blast-lede">
+              I am Justin Gratton, owner and operator of Gratton Painting LLC.
+              I have built this company around one simple idea: do the job
+              right, treat people honestly, and take pride in the finished
+              product.
+            </p>
+            <div class="blast-actions">
+              <a class="slab slab-sun slab-xl" href="tel:+19417733021">Call (941) 773-3021</a>
+              <a class="slab slab-outline slab-xl" href="#contact">Request a free estimate</a>
+            </div>
+            <ul class="blast-points">
+              <li>Detailed surface preparation</li>
+              <li>Quality materials and coatings</li>
+              <li>Residential specialists</li>
+            </ul>
+          </div>
+
+          <div class="blast-logo">
+            <img src="assets/logo.svg" alt="Gratton Painting LLC logo" />
+          </div>
+        </div>
+      </section>
+
+      <section class="band band-teal cut cut-right" aria-label="Service standards">
+        <div class="shell band-grid">
+          <div class="band-cell">
+            <b>Prep First</b>
+            <span>Repairs, priming, and sealing done right</span>
+          </div>
+          <div class="band-cell">
+            <b>Detail</b>
+            <span>Clean lines and professional finishes</span>
+          </div>
+          <div class="band-cell">
+            <b>Coverage</b>
+            <span>Bradenton, Sarasota, and nearby communities</span>
+          </div>
+          <div class="band-cell">
+            <b>Pride</b>
+            <span>Every project treated like our own home</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="zone zone-cream cut cut-left" id="services">
+        <div class="shell">
+          <p class="kicker kicker-dark">Our Services</p>
+          <h2 class="mega">Professional painting<br />and restoration</h2>
+          <p class="zone-lede">
+            From a single room to an entire home, driveway, pool deck, or
+            outdoor living space, we take the same approach to every project:
+            thorough preparation, quality materials, attention to detail, and a
+            finished product we are proud to put our name on.
+          </p>
+
+          <div class="deck">
+            <article class="tile">
+              <h3>Interior Painting</h3>
+              <p>
+                Walls, ceilings, trim, doors, baseboards, cabinets, built-ins,
+                accent walls, and complete prep and finish work.
+              </p>
+            </article>
+            <article class="tile">
+              <h3>Exterior Painting</h3>
+              <p>
+                Stucco, siding, wood, concrete, fascia, soffits, shutters, and
+                doors, plus pressure washing and peeling paint restoration.
+              </p>
+            </article>
+            <article class="tile">
+              <h3>Driveways &amp; Concrete</h3>
+              <p>
+                Driveway coatings, patios, walkways, and sidewalks with proper
+                cleaning, preparation, and decorative or protective finishes.
+              </p>
+            </article>
+            <article class="tile">
+              <h3>Pool Decks &amp; Outdoor Areas</h3>
+              <p>
+                Pool deck coatings, patio resurfacing, lanai repainting, and
+                outdoor concrete restoration built for Florida conditions.
+              </p>
+            </article>
+            <article class="tile">
+              <h3>Decks &amp; Wood Surfaces</h3>
+              <p>
+                Deck painting and staining, wood restoration, and refinishing of
+                fences, gates, and exposed exterior wood surfaces.
+              </p>
+            </article>
+            <article class="tile">
+              <h3>Specialty Restoration</h3>
+              <p>
+                Damaged paint repair, stucco patching, water-weathered surface
+                recovery, peel-stop systems, and complete refinishing.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="zone zone-brown cut cut-right" id="process">
+        <div class="shell">
+          <p class="kicker">How we work</p>
+          <h2 class="mega mega-light">Thorough prep.<br />Clean finish.</h2>
+
+          <ol class="ladder">
+            <li>
+              <span class="digit" aria-hidden="true">01</span>
+              <div class="rung">
+                <h3>Project walkthrough</h3>
+                <p>We review surfaces, identify repairs, and define exactly what the project needs.</p>
+              </div>
+            </li>
+            <li>
+              <span class="digit" aria-hidden="true">02</span>
+              <div class="rung">
+                <h3>Surface preparation</h3>
+                <p>Cleaning, pressure washing, patching, priming, and sealing are completed before finish coats.</p>
+              </div>
+            </li>
+            <li>
+              <span class="digit" aria-hidden="true">03</span>
+              <div class="rung">
+                <h3>Paint and coatings</h3>
+                <p>We apply quality materials with careful technique to deliver even coverage and lasting protection.</p>
+              </div>
+            </li>
+            <li>
+              <span class="digit" aria-hidden="true">04</span>
+              <div class="rung">
+                <h3>Final review</h3>
+                <p>We complete a final walkthrough to ensure the project meets our standard and yours.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="zone zone-sand cut cut-left" id="coverage">
+        <div class="shell split">
+          <div>
+            <p class="kicker kicker-dark">Service Area</p>
+            <h2 class="mega">Proudly serving<br />the Gulf Coast</h2>
+            <p>
+              Gratton Painting LLC provides professional residential painting,
+              coatings, and surface restoration services throughout Bradenton,
+              Sarasota, Manatee County, and surrounding areas.
+            </p>
+            <p>
+              Whether the project is inside your home or across your full
+              exterior and outdoor surfaces, the focus stays the same: quality
+              workmanship and honest service from start to finish.
+            </p>
+
+            <h3 class="area-title">Common service locations</h3>
+            <ul class="area-list">
+              <li>Bradenton</li>
+              <li>Sarasota</li>
+              <li>Manatee County</li>
+              <li>Lakewood Ranch</li>
+              <li>Palmetto</li>
+              <li>Parrish</li>
+              <li>Venice</li>
+              <li>Surrounding areas</li>
+            </ul>
+          </div>
+
+          <aside class="pitch">
+            <h3>Owner operated</h3>
+            <p>
+              You are working directly with Justin Gratton and a team committed
+              to doing the job right.
+            </p>
+            <a class="slab slab-sun slab-xl pitch-call" href="tel:+19417733021">(941) 773-3021</a>
+            <p class="pitch-meta">
+              <b>Company</b><br />Gratton Painting LLC
+            </p>
+            <p class="pitch-meta">
+              <b>Focus</b><br />Residential painting, coatings, and restoration
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="zone zone-brown cut cut-right" id="contact">
+        <div class="shell split split-wide">
+          <div>
+            <p class="kicker">Get a quote</p>
+            <h2 class="mega mega-light">Tell us about<br />your project</h2>
+            <p class="zone-lede zone-lede-light">
+              Need interior painting, exterior work, concrete coatings, or
+              restoration services? Share your project details and we will
+              follow up. You can also call directly at
+              <a href="tel:+19417733021">(941) 773-3021</a>.
+            </p>
+
+            <form class="quote" data-quote-form novalidate>
+              <div class="row">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" autocomplete="name" required />
+              </div>
+              <div class="row">
+                <label for="phone">Phone</label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" required />
+              </div>
+              <div class="row">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" />
+              </div>
+              <div class="row">
+                <label for="project-type">Project type</label>
+                <select id="project-type" name="project">
+                  <option>Interior painting</option>
+                  <option>Exterior painting</option>
+                  <option>Driveway or concrete coating</option>
+                  <option>Pool deck or patio surface</option>
+                  <option>Deck or wood restoration</option>
+                  <option>Surface restoration and repairs</option>
+                </select>
+              </div>
+              <div class="row row-wide">
+                <label for="details">Project details</label>
+                <textarea id="details" name="details" rows="5"></textarea>
+              </div>
+              <button class="slab slab-sun slab-xl" type="submit">Request my estimate</button>
+              <p class="quote-status" data-form-status role="status"></p>
+            </form>
+          </div>
+
+          <aside class="details">
+            <h3>Contact</h3>
+            <dl>
+              <dt>Phone</dt>
+              <dd><a href="tel:+19417733021">(941) 773-3021</a></dd>
+              <dt>Owner</dt>
+              <dd>Justin Gratton</dd>
+              <dt>Company</dt>
+              <dd>Gratton Painting LLC</dd>
+              <dt>Service area</dt>
+              <dd>Bradenton, Sarasota, Manatee County, and surrounding areas</dd>
+            </dl>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer cut cut-left">
+      <div class="shell footer-row">
+        <div class="footer-brand">
+          <img src="assets/logo-mark.svg" alt="" width="48" height="48" />
+          <span>Gratton Painting LLC</span>
+        </div>
+        <p class="footer-line">
+          Gratton Painting LLC — Quality workmanship. Honest service. Built to
+          last. · <a href="tel:+19417733021">(941) 773-3021</a>
         </p>
-      </footer>
-    </div>
+      </div>
+    </footer>
+
+    <script src="assets/site.js"></script>
   </body>
 </html>
